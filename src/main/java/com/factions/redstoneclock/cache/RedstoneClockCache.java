@@ -2,6 +2,8 @@ package com.factions.redstoneclock.cache;
 
 import com.factions.redstoneclock.RedstoneClockPlugin;
 import com.factions.redstoneclock.data.RedstoneClock;
+import com.factions.redstoneclock.repository.RedstoneClockRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +12,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@RequiredArgsConstructor
 public class RedstoneClockCache {
+    private final RedstoneClockRepository redstoneClockRepository;
+
     @Delegate
     final List<RedstoneClock> redstoneClockList = new ArrayList<>();
 
@@ -23,12 +28,12 @@ public class RedstoneClockCache {
     }
 
     public void register(@NotNull RedstoneClock redstoneClock) {
-        RedstoneClockPlugin.getInstance().getRedstoneClockRepository().create(redstoneClock);
+        redstoneClockRepository.create(redstoneClock);
         redstoneClockList.add(redstoneClock);
     }
 
     public void remove(@NotNull RedstoneClock redstoneClock) {
-        RedstoneClockPlugin.getInstance().getRedstoneClockRepository().remove(redstoneClock);
+        redstoneClockRepository.remove(redstoneClock);
         redstoneClockList.remove(redstoneClock);
     }
 

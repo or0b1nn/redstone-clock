@@ -2,10 +2,13 @@ package com.factions.redstoneclock.listener;
 
 import com.factions.redstoneclock.RedstoneClockConstants;
 import com.factions.redstoneclock.RedstoneClockPlugin;
+import com.factions.redstoneclock.cache.RedstoneClockCache;
 import com.factions.redstoneclock.data.RedstoneClock;
 import com.factions.redstoneclock.view.DelayView;
 import com.google.common.collect.ImmutableMap;
 import com.massivecraft.factions.entity.MPlayer;
+import lombok.RequiredArgsConstructor;
+import me.saiintbrisson.minecraft.ViewFrame;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,7 +23,10 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.concurrent.TimeUnit;
 
+@RequiredArgsConstructor
 public class PlayerListener implements Listener {
+    private final RedstoneClockCache redstoneClockCache;
+    private final ViewFrame viewFrame;
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
@@ -43,7 +49,7 @@ public class PlayerListener implements Listener {
         String factionTag = mPlayer.getFactionTag();
 
         RedstoneClock redstoneClock = new RedstoneClock(location, factionTag, 1, TimeUnit.SECONDS.toMillis((long)1.0));
-        RedstoneClockPlugin.getInstance().getRedstoneClockCache().register(redstoneClock);
+        redstoneClockCache.register(redstoneClock);
 
         player.sendMessage("§aRelógio de Delay colocado com sucesso!");
     }
@@ -56,7 +62,7 @@ public class PlayerListener implements Listener {
         if (!mPlayer.hasFaction()) return;
 
         Block block = event.getBlock();
-        RedstoneClock redstoneClock = RedstoneClockPlugin.getInstance().getRedstoneClockCache().getByLocation(block.getLocation());
+        RedstoneClock redstoneClock = redstoneClockCache.getByLocation(block.getLocation());
 
         if (redstoneClock == null) return;
         if (!redstoneClock.getFactionsTag().equalsIgnoreCase(mPlayer.getFactionTag()) && !player.hasPermission("redstoneclock.admin")) {
@@ -68,7 +74,7 @@ public class PlayerListener implements Listener {
         event.setCancelled(true);
         block.setType(Material.AIR);
         player.getInventory().addItem(RedstoneClockConstants.getRedstoneClock(1));
-        RedstoneClockPlugin.getInstance().getRedstoneClockCache().remove(redstoneClock);
+        redstoneClockCache.remove(redstoneClock);
         player.sendMessage("§aRelógio de Delay retirado com sucesso!");
      }
 
@@ -81,7 +87,7 @@ public class PlayerListener implements Listener {
         Location location = block.getLocation();
         if (location == null) return;
 
-        RedstoneClock redstoneClock = RedstoneClockPlugin.getInstance().getRedstoneClockCache().getByLocation(location);
+        RedstoneClock redstoneClock = redstoneClockCache.getByLocation(location);
 
         MPlayer mPlayer = MPlayer.get(player);
 
@@ -95,6 +101,6 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        RedstoneClockPlugin.getInstance().getViewFrame().open(DelayView.class, player, ImmutableMap.of("redstoneclock", redstoneClock));
+       viewFrame.open(DelayView.class, player, ImmutableMap.of("redstoneclock", redstoneClock));
      }
 }
