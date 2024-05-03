@@ -76,7 +76,10 @@ public class PlayerListener implements Listener {
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Block block = event.getClickedBlock();
+        if (block == null) return;
+
         Location location = block.getLocation();
+        if (location == null) return;
 
         RedstoneClock redstoneClock = RedstoneClockPlugin.getInstance().getRedstoneClockCache().getByLocation(location);
 
