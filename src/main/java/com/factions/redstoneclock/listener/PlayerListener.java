@@ -65,6 +65,9 @@ public class PlayerListener implements Listener {
             return;
         }
 
+        event.setCancelled(true);
+        block.setType(Material.AIR);
+        player.getInventory().addItem(RedstoneClockConstants.getRedstoneClock(1));
         RedstoneClockPlugin.getInstance().getRedstoneClockCache().remove(redstoneClock);
         player.sendMessage("§aRelógio de Delay retirado com sucesso!");
      }
