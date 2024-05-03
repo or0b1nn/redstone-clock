@@ -1,0 +1,4 @@
+name: redstone-clock
+version: 1.0-SNAPSHOT
+main: com.factions.redstoneclock.RedstoneClockPlugin
+author: r0b1nn

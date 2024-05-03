@@ -1,0 +1,9 @@
+database:
+  type: sqlite
+  mysql:
+    address: null
+    username: null
+    password: null
+    database: null
+  sqlite:
+    file: sqlite.sql
