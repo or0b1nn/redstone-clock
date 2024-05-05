@@ -26,7 +26,7 @@ public class RedstoneClockPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         this.redstoneClockRepository = new RedstoneClockRepository(this);
-        this.redstoneClockCache = new RedstoneClockCache();
+        this.redstoneClockCache = new RedstoneClockCache(redstoneClockRepository);
         this.redstoneClockRepository.selectMany().forEach(redstoneClock -> this.redstoneClockCache.add(redstoneClock));
 
         this.viewFrame = ViewFrame.of(this, new DelayView()).register();
@@ -44,7 +44,7 @@ public class RedstoneClockPlugin extends JavaPlugin {
     private void registerListeners() {
         PluginManager pluginManager = Bukkit.getPluginManager();
 
-        pluginManager.registerEvents(new PlayerListener(), this);
+        pluginManager.registerEvents(new PlayerListener(redstoneClockCache, viewFrame), this);
     }
     private void registerAllCommands() {
         this.registerCommands(new RedstoneClockCommand());

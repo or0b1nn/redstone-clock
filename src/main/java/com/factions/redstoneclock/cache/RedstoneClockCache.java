@@ -1,6 +1,5 @@
 package com.factions.redstoneclock.cache;
 
-import com.factions.redstoneclock.RedstoneClockPlugin;
 import com.factions.redstoneclock.data.RedstoneClock;
 import com.factions.redstoneclock.repository.RedstoneClockRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +8,6 @@ import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
